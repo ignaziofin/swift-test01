@@ -4,7 +4,7 @@
 //
 //  Created by Ignazio Finizio on 20/01/2017.
 //  Copyright © 2017 Ignazio Finizio. All rights reserved.
-//
+//  ignazio test 2
 
 class WishList {
     private var wishes: [(name: String, thumbnail: String)]
