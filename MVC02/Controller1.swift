@@ -9,45 +9,56 @@
 import UIKit
 
 class Controller1: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var selectedModel = Model()
+    var selectedModel = WishList()
     
     @IBOutlet var ListTable: UITableView!
     
-    @IBOutlet var LabelC1: UILabel!
+    @IBOutlet var ControllerSegment: UISegmentedControl!
+    
+    @IBOutlet var ViewSegment: UISegmentedControl!
     
     
-    @IBOutlet var Segmented: UISegmentedControl!
+    @IBOutlet var ModelSegment: UISegmentedControl!
 
     
-    @IBAction func SegmentedChanged(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex
-        {
-        case 0:
-            selectedModel = Model1()
-            self.ListTable.reloadData()
-            LabelC1.text = selectedModel.value(0)
-        case 1:
-            selectedModel = Model2()
-            self.ListTable.reloadData()
-            LabelC1.text = selectedModel.value(0)
-        default:
-            break; 
+    @IBAction func ControllerChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex==1 {
+            if ViewSegment.selectedSegmentIndex == 0 {
+                performSegue(withIdentifier: "C1V1toC2V1", sender: self)
+            } else{
+                performSegue(withIdentifier: "C1V2toC2V2", sender: self)
+            }
         }
     }
 
-    private func selectModel(modelIndex: Int){ //
+    @IBAction func modelChanged(_ sender: UISegmentedControl) {
+          selectModel(modelIndex: sender.selectedSegmentIndex)
+    }
+    
+    
+    @IBAction func ViewChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex==1 {
+            performSegue(withIdentifier: "C1V1toC1V2", sender: self)
+        } else {
+            performSegue(withIdentifier: "C1V2toC1V1", sender: self)
+        }
+    }
+    
+    private func selectModel(modelIndex: Int){
         switch modelIndex {
         case 0:
-            selectedModel = Model1()
+            selectedModel = WishList1()
+            selectedIndexModel = modelIndex
+            ModelSegment.selectedSegmentIndex = modelIndex
         case 1:
-            selectedModel = Model2()
+            selectedModel = WishList2()
+            selectedIndexModel = modelIndex
+            ModelSegment.selectedSegmentIndex = modelIndex
         default:
             break;
         }
         ListTable.reloadData()
-        LabelC1.text = selectedModel.modelName()
     }
-    
     
 
  // MARK: - TableView
@@ -59,16 +70,14 @@ class Controller1: UIViewController, UITableViewDelegate, UITableViewDataSource 
         // Do any additional setup after loading the view.
         ListTable.delegate = self
         ListTable.dataSource = self
-        self.ListTable.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         
-        
+        selectModel(modelIndex: selectedIndexModel)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return selectedModel.count()
@@ -77,14 +86,14 @@ class Controller1: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ListTable.dequeueReusableCell(withIdentifier: "Cell")! as UITableViewCell
-        cell.textLabel?.text = selectedModel.value(indexPath.row)
-        
+        cell.textLabel?.text = selectedModel.name(indexPath.row)
+        cell.detailTextLabel?.text = String(selectedModel.ext1(indexPath.row))
+        cell.imageView?.image = UIImage(named: selectedModel.thumbnail(indexPath.row))
         return cell
         
     }
     
     
-
     /*
     // MARK: - Navigation
 
