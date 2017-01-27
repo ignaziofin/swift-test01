@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "Controller1.selectModel(modelIndex : Int) -&gt; ():Controller1.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "selectedModel">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Controller1.ControllerChanged(UISegmentedControl) -&gt; ():Controller1.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ViewSegment.selectedSegmentIndex">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
